@@ -15,6 +15,7 @@ final class HomeViewController: UIViewController, SceneViewController {
     // MARK: - Views
     private let tableView = UITableView()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
+    private let tableViewBottomLoadingView = LoadingView()
 
     // MARK: - Life Cycle
     init(coordinator: Coordinator, viewModel: HomeViewModel) {
@@ -62,9 +63,9 @@ extension HomeViewController: ViewConfigurator {
         title = "TV Shows"
 
         tableView.separatorStyle = .none
+        tableView.tableFooterView = tableViewBottomLoadingView
 
         tableView.register(type: ShowTableViewCell.self)
-        tableView.register(type: LoadingTableViewCell.self)
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -72,30 +73,17 @@ extension HomeViewController: ViewConfigurator {
 
 // MARK: - Table View Delegate & Data Source
 extension HomeViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        // section 0 = shows
-        // section 1 = activity indicator for pagination feedback
-
-        viewModel.isLoadingMoreShows ? 2 : 1
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         checkIfShouldShowActivityIndicator()
+        tableViewBottomLoadingView.stopAnimation()
+
         return section == 0 ? viewModel.shows.count : 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case 0:
-            let cell = tableView.dequeueReusableCell(for: indexPath, of: ShowTableViewCell.self)
-            cell.set(show: viewModel.shows[indexPath.row])
-            return cell
-
-        default:
-            let cell = tableView.dequeueReusableCell(for: indexPath, of: LoadingTableViewCell.self)
-            cell.startAnimation()
-            return cell
-        }
+        let cell = tableView.dequeueReusableCell(for: indexPath, of: ShowTableViewCell.self)
+        cell.set(show: viewModel.shows[indexPath.row])
+        return cell
     }
 }
 
@@ -107,10 +95,7 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == viewModel.shows.count - 5 {
             viewModel.fetchShows()
-
-            if tableView.numberOfSections > 1 {
-                tableView.reloadSections(IndexSet(integer: 1), with: .fade)
-            }
+            tableViewBottomLoadingView.startAnimation()
         }
     }
 }
@@ -119,10 +104,6 @@ extension HomeViewController: UITableViewDelegate {
 extension HomeViewController: HomeViewModelDelegate {
     func didFetchNewShows(indexes: [IndexPath]) {
         tableView.insertRows(at: indexes, with: .automatic)
-
-        if tableView.numberOfSections > 1 {
-            tableView.reloadSections(IndexSet(integer: 1), with: .fade)
-        }
     }
 
     func didFailToFetchShows(error: APIError) {

@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class LoadingTableViewCell: UITableViewCell {
+final class LoadingView: UIView {
     private let activityIndicator = UIActivityIndicatorView(style: .medium)
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    init() {
+        super.init(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
         setupViewConfiguration()
     }
 
@@ -21,25 +21,27 @@ final class LoadingTableViewCell: UITableViewCell {
 
     func startAnimation() {
         activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
+    }
+
+    func stopAnimation() {
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
     }
 }
 
-extension LoadingTableViewCell: ViewConfigurator {
+extension LoadingView: ViewConfigurator {
     func buildViewHierarchy() {
-        contentView.addSubview(activityIndicator)
+        addSubview(activityIndicator)
     }
 
     func setupConstraints() {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 32).isActive = true
-        activityIndicator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -32).isActive = true
-        activityIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        activityIndicator.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        activityIndicator.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }
 
     func configureViews() {
-        selectionStyle = .none
         activityIndicator.color = .secondaryLabel
     }
 }
