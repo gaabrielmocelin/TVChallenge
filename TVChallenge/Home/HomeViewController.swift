@@ -29,6 +29,7 @@ final class HomeViewController: UIViewController, SceneViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewConfiguration()
+        viewModel.fetchShows()
     }
 }
 

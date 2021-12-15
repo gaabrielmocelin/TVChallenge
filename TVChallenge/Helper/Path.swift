@@ -9,9 +9,7 @@
 import Foundation
 
 enum Path {
-    static private let baseUrl = "https://api.tvmaze.com/"
+    static private let baseUrl = "https://api.tvmaze.com"
     
-    var shows: String {
-        "\(Path.baseUrl)/shows"
-    }
+    static var shows = "\(Path.baseUrl)/shows"
 }
