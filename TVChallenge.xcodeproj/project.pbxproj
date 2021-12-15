@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E1D8C979276A2FD8008418AC /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D8C978276A2FD8008418AC /* UIView+Extension.swift */; };
+		E1D8C988276A3134008418AC /* ShowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D8C987276A3134008418AC /* ShowService.swift */; };
 		E1DD8FE42769676400C78841 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DD8FE32769676400C78841 /* AppDelegate.swift */; };
 		E1DD8FE62769676400C78841 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DD8FE52769676400C78841 /* SceneDelegate.swift */; };
 		E1DD8FED2769676500C78841 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1DD8FEC2769676500C78841 /* Assets.xcassets */; };
@@ -42,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E1D8C978276A2FD8008418AC /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		E1D8C987276A3134008418AC /* ShowService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowService.swift; sourceTree = "<group>"; };
 		E1DD8FE02769676400C78841 /* TVChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TVChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1DD8FE32769676400C78841 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1DD8FE52769676400C78841 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +95,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E1D8C977276A2FCB008418AC /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				E1D8C978276A2FD8008418AC /* UIView+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		E1D8C980276A310A008418AC /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				E1D8C987276A3134008418AC /* ShowService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		E1DD8FD72769676400C78841 = {
 			isa = PBXGroup;
 			children = (
@@ -114,7 +134,9 @@
 		E1DD8FE22769676400C78841 /* TVChallenge */ = {
 			isa = PBXGroup;
 			children = (
-				E1DD904C27696CFF00C78841 /* Helpers */,
+				E1D8C980276A310A008418AC /* Service */,
+				E1D8C977276A2FCB008418AC /* Extension */,
+				E1DD904C27696CFF00C78841 /* Helper */,
 				E1DD904327696CC000C78841 /* Home */,
 				E1DD903427696B3D00C78841 /* Coordinator */,
 				E1DD90192769695400C78841 /* TVChallenge.entitlements */,
@@ -164,7 +186,7 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
-		E1DD904C27696CFF00C78841 /* Helpers */ = {
+		E1DD904C27696CFF00C78841 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
 				E1DD905027696CFF00C78841 /* Path.swift */,
@@ -172,7 +194,7 @@
 				E1DD905227696CFF00C78841 /* NetworkError.swift */,
 				E1DD905327696CFF00C78841 /* ViewConfigurator.swift */,
 			);
-			path = Helpers;
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -304,12 +326,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1D8C988276A3134008418AC /* ShowService.swift in Sources */,
 				E1DD903B27696B3D00C78841 /* SceneViewController.swift in Sources */,
 				E1DD906827696E1500C78841 /* HomeViewModel.swift in Sources */,
 				E1DD905A27696CFF00C78841 /* ViewConfigurator.swift in Sources */,
 				E1DD8FE42769676400C78841 /* AppDelegate.swift in Sources */,
 				E1DD903C27696B3D00C78841 /* Coordinator.swift in Sources */,
 				E1DD905827696CFF00C78841 /* ReusableView.swift in Sources */,
+				E1D8C979276A2FD8008418AC /* UIView+Extension.swift in Sources */,
 				E1DD8FE62769676400C78841 /* SceneDelegate.swift in Sources */,
 				E1DD903927696B3D00C78841 /* Scene.swift in Sources */,
 				E1DD905927696CFF00C78841 /* NetworkError.swift in Sources */,

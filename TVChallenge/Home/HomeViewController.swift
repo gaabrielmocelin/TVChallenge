@@ -8,9 +8,14 @@
 import UIKit
 
 final class HomeViewController: UIViewController, SceneViewController {
-    var viewModel: HomeViewModel
-    var coordinator: Coordinator
+    // MARK: - Properties
+    let viewModel: HomeViewModel
+    let coordinator: Coordinator
 
+    // MARK: - Views
+    private let tableView = UITableView()
+
+    // MARK: - Life Cycle
     init(coordinator: Coordinator, viewModel: HomeViewModel) {
         self.coordinator = coordinator
         self.viewModel = viewModel
@@ -27,16 +32,18 @@ final class HomeViewController: UIViewController, SceneViewController {
     }
 }
 
+// MARK: - View Code configuration
 extension HomeViewController: ViewConfigurator {
     func buildViewHierarchy() {
-
+        view.addSubview(tableView)
     }
 
     func setupConstraints() {
-
+        tableView.constraintsEqualToSafeArea(of: view)
     }
 
     func configureViews() {
         view.backgroundColor = .systemBackground
+        title = "TV Shows"
     }
 }
