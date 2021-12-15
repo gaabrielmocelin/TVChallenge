@@ -7,6 +7,7 @@ target 'TVChallenge' do
 
   # Pods for TVChallenge
   pod 'Alamofire'
+  pod 'AlamofireImage'
 
   target 'TVChallengeTests' do
     inherit! :search_paths
