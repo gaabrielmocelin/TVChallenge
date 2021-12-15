@@ -75,7 +75,6 @@ extension HomeViewController: ViewConfigurator {
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         checkIfShouldShowActivityIndicator()
-        tableViewBottomLoadingView.stopAnimation()
 
         return section == 0 ? viewModel.shows.count : 1
     }
@@ -103,7 +102,11 @@ extension HomeViewController: UITableViewDelegate {
 // MARK: - View Model Delegate
 extension HomeViewController: HomeViewModelDelegate {
     func didFetchNewShows(indexes: [IndexPath]) {
-        tableView.insertRows(at: indexes, with: .automatic)
+        if !indexes.isEmpty {
+            tableView.insertRows(at: indexes, with: .automatic)
+        }
+
+        tableViewBottomLoadingView.stopAnimation()
     }
 
     func didFailToFetchShows(error: APIError) {

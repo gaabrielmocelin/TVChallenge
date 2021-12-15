@@ -38,11 +38,7 @@ final class HomeViewModel: ViewModel {
                 self?.currentPageToDownload += 1
 
             case .failure(let error):
-                if error.status == 404 {
-                    print("Pagination has finished")
-                } else {
-                    self?.delegate?.didFailToFetchShows(error: error)
-                }
+                self?.delegate?.didFailToFetchShows(error: error)
             }
 
             self?.isLoadingMoreShows = false
