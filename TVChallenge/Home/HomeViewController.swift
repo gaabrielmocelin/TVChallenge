@@ -12,14 +12,6 @@ final class HomeViewController: UIViewController, SceneViewController {
     let viewModel: HomeViewModel
     let coordinator: Coordinator
 
-    var viewState: ViewState = .loading {
-        didSet {
-            if viewState != oldValue {
-                updateUI(for: viewState)
-            }
-        }
-    }
-
     // MARK: - Views
     private let tableView = UITableView()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -40,6 +32,12 @@ final class HomeViewController: UIViewController, SceneViewController {
         super.viewDidLoad()
         setupViewConfiguration()
         viewModel.fetchShows()
+    }
+
+    private func checkIfShouldShowActivityIndicator() {
+        // Shows Activity Indicator on center of screen if is initial loading
+        activityIndicator.isHidden = !viewModel.shows.isEmpty
+        viewModel.shows.isEmpty ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
 }
 
@@ -66,47 +64,38 @@ extension HomeViewController: ViewConfigurator {
         tableView.separatorStyle = .none
 
         tableView.register(type: ShowTableViewCell.self)
+        tableView.register(type: LoadingTableViewCell.self)
         tableView.delegate = self
         tableView.dataSource = self
-
-        updateUI(for: viewState)
-    }
-}
-
-// MARK: - View State
-extension HomeViewController {
-    enum ViewState {
-        case loading
-        case loaded
-    }
-
-    private func updateUI(for state: ViewState) {
-        DispatchQueue.main.async { [unowned self] in
-            switch state {
-            case .loading:
-                self.activityIndicator.isHidden = false
-                self.activityIndicator.startAnimating()
-                self.tableView.isHidden = true
-
-            case .loaded:
-                self.activityIndicator.isHidden = true
-                self.activityIndicator.stopAnimating()
-                self.tableView.isHidden = false
-            }
-        }
     }
 }
 
 // MARK: - Table View Delegate & Data Source
 extension HomeViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // section 0 = shows
+        // section 1 = activity indicator for pagination feedback
+
+        viewModel.isLoadingMoreShows ? 2 : 1
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.shows.count
+        checkIfShouldShowActivityIndicator()
+        return section == 0 ? viewModel.shows.count : 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(for: indexPath, of: ShowTableViewCell.self)
-        cell.set(show: viewModel.shows[indexPath.row])
-        return cell
+        switch indexPath.section {
+        case 0:
+            let cell = tableView.dequeueReusableCell(for: indexPath, of: ShowTableViewCell.self)
+            cell.set(show: viewModel.shows[indexPath.row])
+            return cell
+
+        default:
+            let cell = tableView.dequeueReusableCell(for: indexPath, of: LoadingTableViewCell.self)
+            cell.startAnimation()
+            return cell
+        }
     }
 }
 
@@ -114,13 +103,26 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
     }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.shows.count - 5 {
+            viewModel.fetchShows()
+
+            if tableView.numberOfSections > 1 {
+                tableView.reloadSections(IndexSet(integer: 1), with: .fade)
+            }
+        }
+    }
 }
 
 // MARK: - View Model Delegate
 extension HomeViewController: HomeViewModelDelegate {
     func didFetchNewShows(indexes: [IndexPath]) {
-        viewState = .loaded
         tableView.insertRows(at: indexes, with: .automatic)
+
+        if tableView.numberOfSections > 1 {
+            tableView.reloadSections(IndexSet(integer: 1), with: .fade)
+        }
     }
 
     func didFailToFetchShows(error: APIError) {

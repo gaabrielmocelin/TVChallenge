@@ -28,16 +28,18 @@ final class ShowTableViewCell: UITableViewCell {
 
 extension ShowTableViewCell: ViewConfigurator {
     func buildViewHierarchy() {
-        addSubview(stack)
+        contentView.addSubview(stack)
     }
 
     func setupConstraints() {
-        stack.constraintsEqual(to: self, top: 12, bottom: -12, leading: 20, trailing: -20)
+        stack.constraintsEqual(to: contentView, top: 12, bottom: -12, leading: 20, trailing: -20)
 
         titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 50).isActive = true
     }
 
     func configureViews() {
+        selectionStyle = .none
+        
         stack.axis = .vertical
         stack.spacing = 8
         stack.backgroundColor = .secondarySystemBackground

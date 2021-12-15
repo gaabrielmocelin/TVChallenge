@@ -20,11 +20,15 @@ final class HomeViewModel: ViewModel {
     private(set) var shows: [Show] = []
     private var currentPageToDownload = 0
 
+    private(set) var isLoadingMoreShows = false
+
     init(showService: ShowServiceProtocol = ShowService()) {
         self.showService = showService
     }
 
     func fetchShows() {
+        isLoadingMoreShows = shows.isEmpty ? false : true
+
         showService.fetchShows(page: currentPageToDownload) { [weak self] result in
             switch result {
             case .success(let shows):
@@ -40,6 +44,8 @@ final class HomeViewModel: ViewModel {
                     self?.delegate?.didFailToFetchShows(error: error)
                 }
             }
+
+            self?.isLoadingMoreShows = false
         }
     }
 
