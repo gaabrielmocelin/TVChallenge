@@ -14,7 +14,7 @@ enum Scene {
     func viewController(coordinator: Coordinator) -> UIViewController {
         switch self {
         case .home(let viewModel):
-            return HomeViewController(coordinator: coordinator, viewModel: viewModel)
+            return HomeViewController(coordinator: coordinator, viewModel: viewModel).embedInNavigation()
         }
     }
 }

@@ -8,6 +8,17 @@
 import UIKit
 
 extension UIView {
+    var cornerRadius: CGFloat {
+        get {
+            layer.cornerRadius
+        }
+
+        set {
+            layer.cornerRadius = newValue
+            layer.masksToBounds = (newValue > 0)
+        }
+    }
+
     func constraintsEqual(to view: UIView, top: CGFloat = 0, bottom: CGFloat = 0, leading: CGFloat = 0, trailing: CGFloat = 0) {
         translatesAutoresizingMaskIntoConstraints = false
         topAnchor.constraint(equalTo: view.topAnchor, constant: top).isActive = true
