@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class LoadingView: UIView {
+final class LoadingView: UICollectionViewCell {
     private let activityIndicator = UIActivityIndicatorView(style: .medium)
 
-    init() {
-        super.init(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupViewConfiguration()
     }
 

@@ -10,7 +10,7 @@ import Foundation
 struct Show: Decodable {
     let id: Int
     let name: String
-    let image: Image
+    let image: Image?
 
     struct Image: Decodable {
         let medium: String

@@ -8,13 +8,13 @@
 import UIKit
 import AlamofireImage
 
-final class ShowTableViewCell: UITableViewCell {
-    private let containerView = UIView()
+final class ShowTableViewCell: UICollectionViewCell {
     private let showImageView = UIImageView()
+    private let gradientView = GradientView()
     private let titleLabel = UILabel()
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupViewConfiguration()
     }
 
@@ -22,46 +22,53 @@ final class ShowTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        showImageView.image = nil
+    }
+
     func set(show: Show) {
         titleLabel.text = show.name
 
-        if let url = URL(string: show.image.medium) {
-            showImageView.af.setImage(withURL: url, cacheKey: show.image.medium, imageTransition: .crossDissolve(0.3))
+        if let image = show.image, let url = URL(string: image.medium) {
+            showImageView.af.setImage(withURL: url, cacheKey: image.medium, imageTransition: .crossDissolve(0.3))
         }
     }
 }
 
 extension ShowTableViewCell: ViewConfigurator {
     func buildViewHierarchy() {
-        contentView.addSubview(containerView)
-        containerView.addSubview(showImageView)
-        containerView.addSubview(titleLabel)
+        contentView.addSubview(showImageView)
+        contentView.addSubview(gradientView)
+        contentView.addSubview(titleLabel)
     }
 
     func setupConstraints() {
-        containerView.constraintsEqual(to: contentView, top: 12, bottom: -12, leading: 20, trailing: -20)
+        showImageView.constraintsEqual(to: contentView)
 
-        showImageView.translatesAutoresizingMaskIntoConstraints = false
-        showImageView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
-        showImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
-        showImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-        showImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        gradientView.translatesAutoresizingMaskIntoConstraints = false
+        gradientView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -40).isActive = true
+        gradientView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        gradientView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        gradientView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: showImageView.bottomAnchor, constant: 8).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8).isActive = true
     }
 
     func configureViews() {
-        selectionStyle = .none
+        contentView.cornerRadius = 8
+        contentView.layer.borderWidth = 1
+        contentView.layer.borderColor = UIColor.tertiaryLabel.cgColor
 
-        containerView.cornerRadius = 8
-        containerView.layer.borderWidth = 1
-        containerView.layer.borderColor = UIColor.tertiaryLabel.cgColor
+        titleLabel.numberOfLines = 3
+        titleLabel.textColor = .systemBackground
 
-        titleLabel.numberOfLines = 0
+        gradientView.horizontalMode = false
+        gradientView.startColor = .clear
+        gradientView.endColor = .black
 
         showImageView.backgroundColor = .secondarySystemBackground
         showImageView.contentMode = .scaleAspectFill

@@ -13,9 +13,8 @@ final class HomeViewController: UIViewController, SceneViewController {
     let coordinator: Coordinator
 
     // MARK: - Views
-    private let tableView = UITableView()
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: generateFlowLayout())
     private let activityIndicator = UIActivityIndicatorView(style: .large)
-    private let tableViewBottomLoadingView = LoadingView()
 
     // MARK: - Life Cycle
     init(coordinator: Coordinator, viewModel: HomeViewModel) {
@@ -40,17 +39,33 @@ final class HomeViewController: UIViewController, SceneViewController {
         activityIndicator.isHidden = !viewModel.shows.isEmpty
         viewModel.shows.isEmpty ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
+
+    private func generateFlowLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        let padding: CGFloat = 10
+        let width: CGFloat = self.view.frame.width / 2 - (padding * 2)
+        let height: CGFloat = 300
+
+        layout.itemSize = CGSize(width: width, height: height)
+        layout.minimumLineSpacing = 20
+        layout.minimumInteritemSpacing = padding
+        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+        layout.footerReferenceSize = CGSize(width: view.frame.width, height: 100)
+
+        return layout
+    }
 }
 
 // MARK: - View Code configuration
 extension HomeViewController: ViewConfigurator {
     func buildViewHierarchy() {
-        view.addSubview(tableView)
+        view.addSubview(collectionView)
         view.addSubview(activityIndicator)
     }
 
     func setupConstraints() {
-        tableView.constraintsEqualToSafeArea(of: view)
+        collectionView.constraintsEqualToSafeArea(of: view)
 
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
@@ -62,39 +77,59 @@ extension HomeViewController: ViewConfigurator {
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "TV Shows"
 
-        tableView.separatorStyle = .none
-        tableView.tableFooterView = tableViewBottomLoadingView
-
-        tableView.register(type: ShowTableViewCell.self)
-        tableView.delegate = self
-        tableView.dataSource = self
+        collectionView.backgroundColor = .clear
+        collectionView.register(type: LoadingView.self, supplementaryKind: UICollectionView.elementKindSectionFooter)
+        collectionView.register(type: ShowTableViewCell.self)
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
 }
 
 // MARK: - Table View Delegate & Data Source
-extension HomeViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension HomeViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         checkIfShouldShowActivityIndicator()
 
-        return section == 0 ? viewModel.shows.count : 1
+        return viewModel.shows.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(for: indexPath, of: ShowTableViewCell.self)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(for: indexPath, of: ShowTableViewCell.self)
         cell.set(show: viewModel.shows[indexPath.row])
         return cell
     }
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+
+        switch kind {
+        case UICollectionView.elementKindSectionFooter:
+            return collectionView.dequeueSupplementaryCell(
+                for: indexPath,
+                of: LoadingView.self,
+                kind: UICollectionView.elementKindSectionFooter
+            )
+
+        default:
+            assert(false, "Invalid element type")
+        }
+    }
 }
 
-extension HomeViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
     }
 
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == viewModel.shows.count - 5 {
             viewModel.fetchShows()
-            tableViewBottomLoadingView.startAnimation()
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+
+        if let loadingView = view as? LoadingView {
+            viewModel.isLoadingMoreShows ? loadingView.startAnimation() : loadingView.stopAnimation()
         }
     }
 }
@@ -103,10 +138,8 @@ extension HomeViewController: UITableViewDelegate {
 extension HomeViewController: HomeViewModelDelegate {
     func didFetchNewShows(indexes: [IndexPath]) {
         if !indexes.isEmpty {
-            tableView.insertRows(at: indexes, with: .automatic)
+            collectionView.insertItems(at: indexes)
         }
-
-        tableViewBottomLoadingView.stopAnimation()
     }
 
     func didFailToFetchShows(error: APIError) {
