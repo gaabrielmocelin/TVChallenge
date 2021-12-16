@@ -72,6 +72,9 @@ extension EpisodeDetailViewController: ViewConfigurator {
             episodeImageView.af.setImage(withURL: url, cacheKey: image, imageTransition: .crossDissolve(0.3))
         }
 
+        episodeImageView.contentMode = .scaleAspectFill
+        episodeImageView.clipsToBounds = true
+
         textStack.axis = .vertical
         textStack.spacing = 8
 

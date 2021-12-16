@@ -40,7 +40,7 @@ final class HomeViewController: UIViewController, SceneViewController {
     private func generateFlowLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         let padding: CGFloat = 10
-        let width: CGFloat = self.view.frame.width / 2 - (padding * 2)
+        let width: CGFloat = 375 / 2 - (padding * 2)
         let height: CGFloat = 300
 
         layout.itemSize = CGSize(width: width, height: height)

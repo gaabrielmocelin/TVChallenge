@@ -105,7 +105,6 @@
 		E1DD90012769676500C78841 /* TVChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TVChallengeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1DD90052769676500C78841 /* TVChallengeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVChallengeUITests.swift; sourceTree = "<group>"; };
 		E1DD90072769676500C78841 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E1DD90192769695400C78841 /* TVChallenge.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TVChallenge.entitlements; sourceTree = "<group>"; };
 		E1DD903527696B3D00C78841 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		E1DD903727696B3D00C78841 /* SceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		E1DD903827696B3D00C78841 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -255,7 +254,6 @@
 				E1DD904327696CC000C78841 /* Home */,
 				E1D12B6D276BA2A500A82077 /* ShowDetail */,
 				E1D12BA7276BDD9E00A82077 /* EpisodeDetail */,
-				E1DD90192769695400C78841 /* TVChallenge.entitlements */,
 				E1DD8FE32769676400C78841 /* AppDelegate.swift */,
 				E1DD8FE52769676400C78841 /* SceneDelegate.swift */,
 				E1DD8FEC2769676500C78841 /* Assets.xcassets */,
@@ -772,7 +770,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gabriel.mocelin.TVChallenge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -793,7 +791,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gabriel.mocelin.TVChallenge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
