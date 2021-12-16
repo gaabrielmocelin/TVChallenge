@@ -17,6 +17,7 @@ final class ShowDetailViewController: UIViewController, SceneViewController {
         self.coordinator = coordinator
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        viewModel.delegate = self
     }
 
     required init?(coder: NSCoder) {
@@ -50,13 +51,14 @@ extension ShowDetailViewController: ViewConfigurator {
 
         tableView.register(type: ShowImageTableView.self)
         tableView.register(type: ShowInfoTableViewCell.self)
+        tableView.register(type: EpisodeTableViewCell.self)
         tableView.dataSource = self
     }
 }
 
 extension ShowDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        2
+        2 + viewModel.seasons.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -66,7 +68,7 @@ extension ShowDetailViewController: UITableViewDataSource {
         case 1:
             return 1 // Show info section
         default:
-            return 0
+            return viewModel.episodes[section - 1]?.count ?? 0
         }
     }
 
@@ -83,7 +85,27 @@ extension ShowDetailViewController: UITableViewDataSource {
             return cell
             
         default:
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCell(for: indexPath, of: EpisodeTableViewCell.self)
+            cell.set(episode: viewModel.episodes[indexPath.section - 1]?[indexPath.row])
+            return cell
         }
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard section > 1 else {
+            return nil
+        }
+
+        return "Season \(viewModel.seasons[section - 2])"
+    }
+}
+
+extension ShowDetailViewController: ShowDetailViewModelDelegate {
+    func didFetchEpisodes() {
+        tableView.reloadData()
+    }
+
+    func didFailToFetchEpisodes(error: APIError) {
+        print(error.name)
     }
 }

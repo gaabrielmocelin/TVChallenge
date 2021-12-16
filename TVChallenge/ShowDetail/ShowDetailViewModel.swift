@@ -7,9 +7,16 @@
 
 import Foundation
 
+protocol ShowDetailViewModelDelegate: AnyObject {
+    func didFetchEpisodes()
+    func didFailToFetchEpisodes(error: APIError)
+}
+
 final class ShowDetailViewModel: ViewModel {
     let showService: ShowServiceProtocol
     let show: Show
+
+    weak var delegate: ShowDetailViewModelDelegate?
 
     var summary: String {
         show.summary.removeHTMLTags()
@@ -23,19 +30,26 @@ final class ShowDetailViewModel: ViewModel {
         "Schedule: \(show.schedule.time) - \(show.schedule.days.joined(separator: ", "))"
     }
 
+    var episodes: [Int: [Episode]] = [:]
+
+    var seasons: [Int] {
+        episodes.keys.map { $0 }.sorted()
+    }
+
     init(showService: ShowServiceProtocol, show: Show) {
         self.showService = showService
         self.show = show
     }
 
     func fetchEpisodes() {
-        showService.fetchEpisodes(of: show) { result in
+        showService.fetchEpisodes(of: show) { [weak self] result in
             switch result {
             case .success(let episodes):
-                print(episodes)
+                self?.episodes = Dictionary(grouping: episodes) { $0.season }
+                self?.delegate?.didFetchEpisodes()
 
             case .failure(let error):
-                print(error)
+                self?.delegate?.didFailToFetchEpisodes(error: error)
             }
         }
     }
