@@ -8,7 +8,7 @@
 import UIKit
 
 final class LoadingCollectionViewFooter: UICollectionViewCell {
-    private let activityIndicator = UIActivityIndicatorView(style: .medium)
+    private let loadingView = LoadingView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,28 +20,22 @@ final class LoadingCollectionViewFooter: UICollectionViewCell {
     }
 
     func startAnimation() {
-        activityIndicator.startAnimating()
-        activityIndicator.isHidden = false
+        loadingView.startAnimation()
     }
 
     func stopAnimation() {
-        activityIndicator.stopAnimating()
-        activityIndicator.isHidden = true
+        loadingView.stopAnimation()
     }
 }
 
 extension LoadingCollectionViewFooter: ViewConfigurator {
     func buildViewHierarchy() {
-        addSubview(activityIndicator)
+        contentView.addSubview(loadingView)
     }
 
     func setupConstraints() {
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        loadingView.constraintsEqual(to: contentView)
     }
 
-    func configureViews() {
-        activityIndicator.color = .secondaryLabel
-    }
+    func configureViews() { }
 }
