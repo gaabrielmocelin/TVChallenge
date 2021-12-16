@@ -26,4 +26,3 @@ struct AlertAction {
     let style: UIAlertAction.Style
     let action: (UIAlertAction) -> Void
 }
-

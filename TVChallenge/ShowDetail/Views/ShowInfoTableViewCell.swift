@@ -51,6 +51,6 @@ extension ShowInfoTableViewCell: ViewConfigurator {
         scheduleLabel.textColor = .secondaryLabel
 
         genresLabel.numberOfLines = 0
-        genresLabel.textColor = .tertiaryLabel
+        genresLabel.textColor = .secondaryLabel
     }
 }

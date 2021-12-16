@@ -8,9 +8,11 @@
 import UIKit
 
 final class EpisodeDetailViewController: UIViewController, SceneViewController {
+    // MARK: - Properties
     let coordinator: Coordinator
     let viewModel: EpisodeDetailViewModel
 
+    // MARK: - Views
     private let episodeImageView = UIImageView()
     private lazy var textStack = UIStackView(arrangedSubviews: [titleLabel, seasonLabel, summaryLabel])
     private let titleLabel = UILabel()
@@ -18,6 +20,7 @@ final class EpisodeDetailViewController: UIViewController, SceneViewController {
     private let seasonLabel = UILabel()
     private let dismissButton = UIButton()
 
+    // MARK: - Life Cycle
     init(coordinator: Coordinator, viewModel: EpisodeDetailViewModel) {
         self.coordinator = coordinator
         self.viewModel = viewModel
@@ -33,11 +36,13 @@ final class EpisodeDetailViewController: UIViewController, SceneViewController {
         setupViewConfiguration()
     }
 
+    // MARK: - User Action
     @objc private func didTapDismissButton() {
         dismiss(animated: true)
     }
 }
 
+// MARK: - View Code configuration
 extension EpisodeDetailViewController: ViewConfigurator {
     func buildViewHierarchy() {
         view.addSubview(episodeImageView)
@@ -78,14 +83,14 @@ extension EpisodeDetailViewController: ViewConfigurator {
         textStack.axis = .vertical
         textStack.spacing = 8
 
-        titleLabel.text = "\(viewModel.episode.number). \(viewModel.episode.name)"
+        titleLabel.text = viewModel.title
         titleLabel.numberOfLines = 3
         titleLabel.font = .systemFont(ofSize: 20, weight: .semibold)
 
-        seasonLabel.text = "Season \(viewModel.episode.season)"
+        seasonLabel.text = viewModel.season
         seasonLabel.textColor = .tertiaryLabel
 
-        summaryLabel.text = viewModel.episode.summary?.removeHTMLTags()
+        summaryLabel.text = viewModel.summary
         summaryLabel.numberOfLines = 0
 
         dismissButton.addBlurEffect(style: .systemChromeMaterialDark, cornerRadius: 16)
