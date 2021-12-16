@@ -16,3 +16,7 @@ struct Show: Decodable {
         let medium: String
     }
 }
+
+struct SearchedShow: Decodable {
+    let show: Show
+}

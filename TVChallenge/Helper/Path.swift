@@ -12,4 +12,5 @@ enum Path {
     static private let baseUrl = "https://api.tvmaze.com"
     
     static var shows = "\(Path.baseUrl)/shows"
+    static var search = "\(Path.baseUrl)/search/shows"
 }

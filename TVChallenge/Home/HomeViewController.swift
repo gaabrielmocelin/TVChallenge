@@ -17,7 +17,7 @@ final class HomeViewController: UIViewController, SceneViewController {
     // MARK: - Views
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: generateFlowLayout())
     private let activityIndicator = UIActivityIndicatorView(style: .large)
-    private let searchController = UISearchController(searchResultsController: SearchViewController())
+    private let searchController = UISearchController(searchResultsController: nil)
 
     // MARK: - Life Cycle
     init(coordinator: Coordinator, viewModel: HomeViewModel) {
@@ -35,12 +35,6 @@ final class HomeViewController: UIViewController, SceneViewController {
         super.viewDidLoad()
         setupViewConfiguration()
         viewModel.fetchShows()
-    }
-
-    private func checkIfShouldShowActivityIndicator() {
-        // Shows Activity Indicator on center of screen if is initial loading
-        activityIndicator.isHidden = !viewModel.shows.isEmpty
-        viewModel.shows.isEmpty ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
 
     private func generateFlowLayout() -> UICollectionViewFlowLayout {
@@ -82,6 +76,7 @@ extension HomeViewController: ViewConfigurator {
 
         searchController.searchBar.placeholder = "Search"
         searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
 
         collectionView.backgroundColor = .clear
@@ -95,9 +90,7 @@ extension HomeViewController: ViewConfigurator {
 // MARK: - UICollectionView Delegate & Data Source
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        checkIfShouldShowActivityIndicator()
-
-        return viewModel.shows.count
+        viewModel.shows.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -127,13 +120,11 @@ extension HomeViewController: UICollectionViewDelegate {
 
     }
 
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == viewModel.shows.count - 5 {
+    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+
+        if viewModel.state == .default {
             viewModel.fetchShows()
         }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
 
         if let loadingView = view as? LoadingView {
             viewModel.isLoadingMoreShows ? loadingView.startAnimation() : loadingView.stopAnimation()
@@ -158,6 +149,15 @@ extension HomeViewController: HomeViewModelDelegate {
 
         presentAlert(title: error.name, message: error.message, actions: [okAction, retryAction])
     }
+
+    func didUpdateState(to state: HomeState) {
+        DispatchQueue.main.async { [weak self] in
+            self?.activityIndicator.isHidden = state != .loading
+            state == .loading ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
+            self?.collectionView.isHidden = state == .loading
+            self?.collectionView.reloadData()
+        }
+    }
 }
 
 // MARK: - Search Delegate
@@ -172,7 +172,7 @@ extension HomeViewController: UISearchResultsUpdating {
 
         // Debouncer timer
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
-
+            self?.viewModel.search(for: searchText)
         }
     }
 }

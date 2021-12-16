@@ -28,10 +28,10 @@ final class ShowService: ShowServiceProtocol {
     }
 
     func searchShows(for query: String, completion: @escaping (Result<[Show], APIError>) -> Void) {
-        AF.request(Path.shows, parameters: ["q": query]).responseDecodable { (response: DataResponse<[Show], AFError>) in
+        AF.request(Path.search, parameters: ["q": query]).responseDecodable { (response: DataResponse<[SearchedShow], AFError>) in
             switch response.result {
-            case .success(let shows):
-                completion(.success(shows))
+            case .success(let searchedShows):
+                completion(.success(searchedShows.map(\.show)))
 
             case .failure(let error):
                 let apiError = try? JSONDecoder().decode(APIError.self, from: response.data ?? Data())
