@@ -8,8 +8,8 @@
 import UIKit
 
 final class EpisodeTableViewCell: UITableViewCell {
-    private lazy var stack = UIStackView(arrangedSubviews: [titleLabel])
     private let titleLabel = UILabel()
+    private let separatorView = UIView()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -20,26 +20,52 @@ final class EpisodeTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        UIView.animate(withDuration: 0.3) {
+            self.titleLabel.alpha = self.isHighlighted ? 0.7 : 1
+        }
+    }
+
     func set(episode: Episode?) {
         guard let episode = episode else {
             return
         }
-        
-        titleLabel.text = episode.name
+
+        let attributedString = NSMutableAttributedString(
+            string: "\(episode.number). ",
+            attributes: [.foregroundColor: UIColor.tertiaryLabel]
+        )
+
+        attributedString.append(
+            NSAttributedString(string: episode.name, attributes: [.foregroundColor: UIColor.systemBlue])
+        )
+
+        titleLabel.attributedText = attributedString
     }
 }
 
 extension EpisodeTableViewCell: ViewConfigurator {
     func buildViewHierarchy() {
-        contentView.addSubview(stack)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(separatorView)
+
     }
 
     func setupConstraints() {
-        stack.constraintsEqual(to: contentView, top: 12, bottom: -12, leading: 16, trailing: -16)
+        titleLabel.constraintsEqual(to: contentView, top: 16, bottom: -16, leading: 16, trailing: -16)
+
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
+        separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
 
     func configureViews() {
         backgroundColor = .clear
         selectionStyle = .none
+
+        separatorView.backgroundColor = UIColor.secondarySystemBackground
     }
 }
