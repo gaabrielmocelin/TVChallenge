@@ -8,7 +8,7 @@
 import UIKit
 import AlamofireImage
 
-final class ShowTableViewCell: UICollectionViewCell {
+final class ShowCollectionViewCell: UICollectionViewCell {
     private let showImageView = UIImageView()
     private let gradientView = GradientView()
     private let titleLabel = UILabel()
@@ -36,7 +36,7 @@ final class ShowTableViewCell: UICollectionViewCell {
     }
 }
 
-extension ShowTableViewCell: ViewConfigurator {
+extension ShowCollectionViewCell: ViewConfigurator {
     func buildViewHierarchy() {
         contentView.addSubview(showImageView)
         contentView.addSubview(gradientView)
@@ -64,7 +64,7 @@ extension ShowTableViewCell: ViewConfigurator {
         contentView.layer.borderColor = UIColor.tertiaryLabel.cgColor
 
         titleLabel.numberOfLines = 3
-        titleLabel.textColor = .systemBackground
+        titleLabel.textColor = .white
 
         gradientView.horizontalMode = false
         gradientView.startColor = .clear

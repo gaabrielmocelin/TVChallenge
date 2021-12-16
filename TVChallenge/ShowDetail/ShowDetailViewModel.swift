@@ -11,6 +11,14 @@ final class ShowDetailViewModel: ViewModel {
     let showService: ShowServiceProtocol
     let show: Show
 
+    var summary: String {
+        show.summary.removeHTMLTags()
+    }
+
+    var genres: String {
+        "Genres: \(show.genres.joined(separator: "; "))"
+    }
+
     init(showService: ShowServiceProtocol, show: Show) {
         self.showService = showService
         self.show = show

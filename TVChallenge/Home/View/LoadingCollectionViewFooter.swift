@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class LoadingView: UICollectionViewCell {
+final class LoadingCollectionViewFooter: UICollectionViewCell {
     private let activityIndicator = UIActivityIndicatorView(style: .medium)
 
     override init(frame: CGRect) {
@@ -30,7 +30,7 @@ final class LoadingView: UICollectionViewCell {
     }
 }
 
-extension LoadingView: ViewConfigurator {
+extension LoadingCollectionViewFooter: ViewConfigurator {
     func buildViewHierarchy() {
         addSubview(activityIndicator)
     }

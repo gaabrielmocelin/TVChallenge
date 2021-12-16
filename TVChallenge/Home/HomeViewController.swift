@@ -80,8 +80,8 @@ extension HomeViewController: ViewConfigurator {
         navigationItem.searchController = searchController
 
         collectionView.backgroundColor = .clear
-        collectionView.register(type: LoadingView.self, supplementaryKind: UICollectionView.elementKindSectionFooter)
-        collectionView.register(type: ShowTableViewCell.self)
+        collectionView.register(type: LoadingCollectionViewFooter.self, supplementaryKind: UICollectionView.elementKindSectionFooter)
+        collectionView.register(type: ShowCollectionViewCell.self)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -94,7 +94,7 @@ extension HomeViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(for: indexPath, of: ShowTableViewCell.self)
+        let cell = collectionView.dequeueReusableCell(for: indexPath, of: ShowCollectionViewCell.self)
         cell.set(show: viewModel.shows[indexPath.row])
         return cell
     }
@@ -105,7 +105,7 @@ extension HomeViewController: UICollectionViewDataSource {
         case UICollectionView.elementKindSectionFooter:
             return collectionView.dequeueSupplementaryCell(
                 for: indexPath,
-                of: LoadingView.self,
+                of: LoadingCollectionViewFooter.self,
                 kind: UICollectionView.elementKindSectionFooter
             )
 
@@ -127,7 +127,7 @@ extension HomeViewController: UICollectionViewDelegate {
             viewModel.fetchShows()
         }
 
-        if let loadingView = view as? LoadingView {
+        if let loadingView = view as? LoadingCollectionViewFooter {
             viewModel.isLoadingMoreShows ? loadingView.startAnimation() : loadingView.stopAnimation()
         }
     }
