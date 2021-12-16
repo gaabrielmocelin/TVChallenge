@@ -11,6 +11,9 @@
 		5EBCA60CC9B7EC4EE0C7E76D /* Pods_TVChallenge_TVChallengeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 527C970CD7A93A4C90600E31 /* Pods_TVChallenge_TVChallengeUITests.framework */; };
 		C2A30CE49A33BE3692F79F89 /* Pods_TVChallengeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 785514E6E7A6B682018F373F /* Pods_TVChallengeTests.framework */; };
 		E1D12B38276A94C400A82077 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D12B37276A94C400A82077 /* GradientView.swift */; };
+		E1D12B69276B848000A82077 /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D12B68276B848000A82077 /* Episode.swift */; };
+		E1D12B6F276BA2B700A82077 /* ShowDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D12B6E276BA2B700A82077 /* ShowDetailViewModel.swift */; };
+		E1D12B77276BA2FB00A82077 /* ShowDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D12B76276BA2FB00A82077 /* ShowDetailViewController.swift */; };
 		E1D8C979276A2FD8008418AC /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D8C978276A2FD8008418AC /* UIView+Extension.swift */; };
 		E1D8C988276A3134008418AC /* ShowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D8C987276A3134008418AC /* ShowService.swift */; };
 		E1D8C998276A3C4E008418AC /* Show.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D8C997276A3C4E008418AC /* Show.swift */; };
@@ -62,6 +65,9 @@
 		B41BF76366885B1A688EA246 /* Pods-TVChallenge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVChallenge.debug.xcconfig"; path = "Target Support Files/Pods-TVChallenge/Pods-TVChallenge.debug.xcconfig"; sourceTree = "<group>"; };
 		C64C66A429284810090C56A8 /* Pods-TVChallengeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVChallengeTests.debug.xcconfig"; path = "Target Support Files/Pods-TVChallengeTests/Pods-TVChallengeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E1D12B37276A94C400A82077 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		E1D12B68276B848000A82077 /* Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
+		E1D12B6E276BA2B700A82077 /* ShowDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailViewModel.swift; sourceTree = "<group>"; };
+		E1D12B76276BA2FB00A82077 /* ShowDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailViewController.swift; sourceTree = "<group>"; };
 		E1D8C978276A2FD8008418AC /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		E1D8C987276A3134008418AC /* ShowService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowService.swift; sourceTree = "<group>"; };
 		E1D8C997276A3C4E008418AC /* Show.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Show.swift; sourceTree = "<group>"; };
@@ -130,6 +136,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E1D12B6D276BA2A500A82077 /* ShowDetail */ = {
+			isa = PBXGroup;
+			children = (
+				E1D12B6E276BA2B700A82077 /* ShowDetailViewModel.swift */,
+				E1D12B76276BA2FB00A82077 /* ShowDetailViewController.swift */,
+			);
+			path = ShowDetail;
+			sourceTree = "<group>";
+		};
 		E1D8C977276A2FCB008418AC /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,6 +167,7 @@
 			children = (
 				E1D8C997276A3C4E008418AC /* Show.swift */,
 				E1D8C9A2276A45A5008418AC /* APIError.swift */,
+				E1D12B68276B848000A82077 /* Episode.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -194,8 +210,9 @@
 				E1D8C980276A310A008418AC /* Service */,
 				E1D8C977276A2FCB008418AC /* Extension */,
 				E1DD904C27696CFF00C78841 /* Helper */,
-				E1DD904327696CC000C78841 /* Home */,
 				E1DD903427696B3D00C78841 /* Coordinator */,
+				E1DD904327696CC000C78841 /* Home */,
+				E1D12B6D276BA2A500A82077 /* ShowDetail */,
 				E1DD90192769695400C78841 /* TVChallenge.entitlements */,
 				E1DD8FE32769676400C78841 /* AppDelegate.swift */,
 				E1DD8FE52769676400C78841 /* SceneDelegate.swift */,
@@ -506,7 +523,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1D8C9B1276A5B46008418AC /* UIViewController+Extension.swift in Sources */,
+				E1D12B69276B848000A82077 /* Episode.swift in Sources */,
 				E1D8C9B6276A652A008418AC /* LoadingView.swift in Sources */,
+				E1D12B77276BA2FB00A82077 /* ShowDetailViewController.swift in Sources */,
 				E1D8C988276A3134008418AC /* ShowService.swift in Sources */,
 				E1DD903B27696B3D00C78841 /* SceneViewController.swift in Sources */,
 				E1DD906827696E1500C78841 /* HomeViewModel.swift in Sources */,
@@ -519,6 +538,7 @@
 				E1DD905827696CFF00C78841 /* ReusableView.swift in Sources */,
 				E1D8C979276A2FD8008418AC /* UIView+Extension.swift in Sources */,
 				E1DD8FE62769676400C78841 /* SceneDelegate.swift in Sources */,
+				E1D12B6F276BA2B700A82077 /* ShowDetailViewModel.swift in Sources */,
 				E1DD903927696B3D00C78841 /* Scene.swift in Sources */,
 				E1DD905727696CFF00C78841 /* Path.swift in Sources */,
 				E1DD904527696CC900C78841 /* HomeViewController.swift in Sources */,

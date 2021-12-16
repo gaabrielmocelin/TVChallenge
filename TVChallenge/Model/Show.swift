@@ -15,16 +15,17 @@ struct Show: Decodable {
     let summary: String
     let schedule: Schedule
 
-    struct Image: Decodable {
-        let medium: String
-    }
-
     struct Schedule: Decodable {
         let time: String
         let days: [String]
     }
 }
 
+struct Image: Decodable {
+    let medium: String
+}
+
+/// Search request returns a object that has the show inside
 struct SearchedShow: Decodable {
     let show: Show
 }

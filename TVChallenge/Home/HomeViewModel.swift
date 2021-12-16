@@ -20,20 +20,24 @@ enum HomeState {
 }
 
 final class HomeViewModel: ViewModel {
+    // MARK: - Services
     private let showService: ShowServiceProtocol
 
+    // MARK: - View Delegate
     weak var delegate: HomeViewModelDelegate? {
         didSet {
             delegate?.didUpdateState(to: state)
         }
     }
 
+    // MARK: - Services
     private(set) var state: HomeState = .loading {
         didSet {
             delegate?.didUpdateState(to: state)
         }
     }
 
+    // MARK: - Properties
     private var downloadedShows: [Show] = []
     private var currentPageToDownload = 0
     private(set) var isLoadingMoreShows = false
@@ -44,10 +48,12 @@ final class HomeViewModel: ViewModel {
         state == .default ? downloadedShows : searchedShows
     }
 
+    // MARK: - Init
     init(showService: ShowServiceProtocol = ShowService()) {
         self.showService = showService
     }
 
+    // MARK: - Fetch Shows + Pagination
     func fetchShows() {
         isLoadingMoreShows = shows.isEmpty ? false : true
 
@@ -71,6 +77,14 @@ final class HomeViewModel: ViewModel {
         }
     }
 
+    ///due to pagination, we only insert the new rows instead of reload all table
+    private func getNewIndexesToInsert(_ newShows: [Show]) -> [IndexPath] {
+       let startIndex = downloadedShows.count - newShows.count
+       let endIndex = startIndex + newShows.count
+       return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
+    }
+
+    // MARK: - Search
     func search(for query: String) {
         guard !query.isEmpty else {
             state = .default
@@ -91,10 +105,8 @@ final class HomeViewModel: ViewModel {
         }
     }
 
-    ///due to pagination, we only insert the new rows instead of reload all table
-    private func getNewIndexesToInsert(_ newShows: [Show]) -> [IndexPath] {
-       let startIndex = downloadedShows.count - newShows.count
-       let endIndex = startIndex + newShows.count
-       return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
+    // MARK: - Children ViewModel
+    func getShowDetailViewModel(for index: IndexPath) -> ShowDetailViewModel {
+        ShowDetailViewModel(showService: showService, show: shows[index.row])
     }
 }

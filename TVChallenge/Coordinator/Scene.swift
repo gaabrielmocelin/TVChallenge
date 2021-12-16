@@ -10,11 +10,14 @@ import UIKit
 /// Each ViewController has a correspondent Scene which holds its ViewModel
 enum Scene {
     case home(HomeViewModel)
+    case showDetail(ShowDetailViewModel)
 
     func viewController(coordinator: Coordinator) -> UIViewController {
         switch self {
         case .home(let viewModel):
             return HomeViewController(coordinator: coordinator, viewModel: viewModel).embedInNavigation()
+        case .showDetail(let viewModel):
+            return ShowDetailViewController(coordinator: coordinator, viewModel: viewModel)
         }
     }
 }

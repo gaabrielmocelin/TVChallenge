@@ -13,4 +13,8 @@ enum Path {
     
     static var shows = "\(Path.baseUrl)/shows"
     static var search = "\(Path.baseUrl)/search/shows"
+
+    static func episodes(showId: Int) -> String {
+        "\(Path.baseUrl)/shows/\(showId)/episodes"
+    }
 }
