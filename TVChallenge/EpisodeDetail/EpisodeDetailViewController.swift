@@ -16,6 +16,7 @@ final class EpisodeDetailViewController: UIViewController, SceneViewController {
     private let titleLabel = UILabel()
     private let summaryLabel = UILabel()
     private let seasonLabel = UILabel()
+    private let dismissButton = UIButton()
 
     init(coordinator: Coordinator, viewModel: EpisodeDetailViewModel) {
         self.coordinator = coordinator
@@ -31,12 +32,17 @@ final class EpisodeDetailViewController: UIViewController, SceneViewController {
         super.viewDidLoad()
         setupViewConfiguration()
     }
+
+    @objc private func didTapDismissButton() {
+        dismiss(animated: true)
+    }
 }
 
 extension EpisodeDetailViewController: ViewConfigurator {
     func buildViewHierarchy() {
         view.addSubview(episodeImageView)
         view.addSubview(textStack)
+        view.addSubview(dismissButton)
     }
 
     func setupConstraints() {
@@ -51,6 +57,12 @@ extension EpisodeDetailViewController: ViewConfigurator {
         textStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         textStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
         textStack.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -8).isActive = true
+
+        dismissButton.translatesAutoresizingMaskIntoConstraints = false
+        dismissButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 16).isActive = true
+        dismissButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        dismissButton.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        dismissButton.widthAnchor.constraint(equalToConstant: 32).isActive = true
     }
 
     func configureViews() {
@@ -72,5 +84,10 @@ extension EpisodeDetailViewController: ViewConfigurator {
 
         summaryLabel.text = viewModel.episode.summary.removeHTMLTags()
         summaryLabel.numberOfLines = 0
+
+        dismissButton.addBlurEffect(style: .systemChromeMaterialDark, cornerRadius: 16)
+        dismissButton.setTitle("X", for: .normal)
+        dismissButton.titleLabel?.font = .systemFont(ofSize: 21, weight: .bold)
+        dismissButton.addTarget(self, action: #selector(didTapDismissButton), for: .touchUpInside)
     }
 }
