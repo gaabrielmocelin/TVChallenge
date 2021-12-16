@@ -12,9 +12,12 @@ final class HomeViewController: UIViewController, SceneViewController {
     let viewModel: HomeViewModel
     let coordinator: Coordinator
 
+    private var searchTimer: Timer?
+
     // MARK: - Views
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: generateFlowLayout())
     private let activityIndicator = UIActivityIndicatorView(style: .large)
+    private let searchController = UISearchController(searchResultsController: SearchViewController())
 
     // MARK: - Life Cycle
     init(coordinator: Coordinator, viewModel: HomeViewModel) {
@@ -77,6 +80,10 @@ extension HomeViewController: ViewConfigurator {
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "TV Shows"
 
+        searchController.searchBar.placeholder = "Search"
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
+
         collectionView.backgroundColor = .clear
         collectionView.register(type: LoadingView.self, supplementaryKind: UICollectionView.elementKindSectionFooter)
         collectionView.register(type: ShowTableViewCell.self)
@@ -85,7 +92,7 @@ extension HomeViewController: ViewConfigurator {
     }
 }
 
-// MARK: - Table View Delegate & Data Source
+// MARK: - UICollectionView Delegate & Data Source
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         checkIfShouldShowActivityIndicator()
@@ -150,5 +157,22 @@ extension HomeViewController: HomeViewModelDelegate {
         }
 
         presentAlert(title: error.name, message: error.message, actions: [okAction, retryAction])
+    }
+}
+
+// MARK: - Search Delegate
+extension HomeViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        //Invalidate and Reinitialise
+        searchTimer?.invalidate()
+
+        guard let searchText = searchController.searchBar.text else {
+            return
+        }
+
+        // Debouncer timer
+        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
+
+        }
     }
 }
