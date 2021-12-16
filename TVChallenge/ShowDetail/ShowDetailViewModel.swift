@@ -19,6 +19,10 @@ final class ShowDetailViewModel: ViewModel {
         "Genres: \(show.genres.joined(separator: "; "))"
     }
 
+    var schedule: String {
+        "Schedule: \(show.schedule.time) - \(show.schedule.days.joined(separator: ", "))"
+    }
+
     init(showService: ShowServiceProtocol, show: Show) {
         self.showService = showService
         self.show = show

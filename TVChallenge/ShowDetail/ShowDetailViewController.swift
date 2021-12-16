@@ -79,7 +79,7 @@ extension ShowDetailViewController: UITableViewDataSource {
 
         case (1,0):
             let cell = tableView.dequeueReusableCell(for: indexPath, of: ShowInfoTableViewCell.self)
-            cell.set(summary: viewModel.summary, genres: viewModel.genres)
+            cell.set(summary: viewModel.summary, genres: viewModel.genres, schedule: viewModel.schedule)
             return cell
             
         default:

@@ -8,9 +8,10 @@
 import UIKit
 
 final class ShowInfoTableViewCell: UITableViewCell {
-    private lazy var stack = UIStackView(arrangedSubviews: [summaryLabel, genresLabel])
+    private lazy var stack = UIStackView(arrangedSubviews: [summaryLabel, scheduleLabel, genresLabel])
     private let summaryLabel = UILabel()
     private let genresLabel = UILabel()
+    private let scheduleLabel = UILabel()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -21,9 +22,10 @@ final class ShowInfoTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(summary: String, genres: String) {
+    func set(summary: String, genres: String, schedule: String) {
         summaryLabel.text = summary
         genresLabel.text = genres
+        scheduleLabel.text = schedule
     }
 }
 
@@ -45,7 +47,10 @@ extension ShowInfoTableViewCell: ViewConfigurator {
 
         summaryLabel.numberOfLines = 0
 
+        scheduleLabel.numberOfLines = 0
+        scheduleLabel.textColor = .secondaryLabel
+
         genresLabel.numberOfLines = 0
-        genresLabel.textColor = .secondaryLabel
+        genresLabel.textColor = .tertiaryLabel
     }
 }
