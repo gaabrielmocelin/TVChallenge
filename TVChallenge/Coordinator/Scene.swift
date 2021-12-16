@@ -11,13 +11,18 @@ import UIKit
 enum Scene {
     case home(HomeViewModel)
     case showDetail(ShowDetailViewModel)
+    case episodeDetail(EpisodeDetailViewModel)
 
     func viewController(coordinator: Coordinator) -> UIViewController {
         switch self {
         case .home(let viewModel):
             return HomeViewController(coordinator: coordinator, viewModel: viewModel).embedInNavigation()
+
         case .showDetail(let viewModel):
             return ShowDetailViewController(coordinator: coordinator, viewModel: viewModel)
+
+        case .episodeDetail(let viewModel):
+            return EpisodeDetailViewController(coordinator: coordinator, viewModel: viewModel)
         }
     }
 }

@@ -23,6 +23,7 @@ struct Show: Decodable {
 
 struct Image: Decodable {
     let medium: String
+    let original: String
 }
 
 /// Search request returns a object that has the show inside

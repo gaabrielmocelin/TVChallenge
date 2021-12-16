@@ -93,6 +93,16 @@ extension ShowDetailViewController: UITableViewDataSource {
 }
 
 extension ShowDetailViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard indexPath.section > 1 else {
+            return
+        }
+
+        if let episodeViewModel = viewModel.getEpisodeViewModel(for: indexPath) {
+            transition(to: .episodeDetail(episodeViewModel), type: .modal())
+        }
+    }
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard section > 1 else {
             return nil

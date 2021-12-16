@@ -53,4 +53,12 @@ final class ShowDetailViewModel: ViewModel {
             }
         }
     }
+
+    func getEpisodeViewModel(for indexPath: IndexPath) -> EpisodeDetailViewModel? {
+        guard let episode = episodes[indexPath.section - 1]?[indexPath.row] else {
+            return nil
+        }
+
+        return EpisodeDetailViewModel(episode: episode)
+    }
 }

@@ -14,8 +14,8 @@ protocol ViewModel { }
 protocol SceneViewController {
     associatedtype T: ViewModel
 
-    var viewModel: T { get }
     var coordinator: Coordinator { get }
+    var viewModel: T { get }
 
     init(coordinator: Coordinator, viewModel: T)
 }
