@@ -135,12 +135,22 @@ extension ShowDetailViewController: ShowDetailViewModelDelegate {
 
     func didFetchEpisodes() {
         setLoadingViewVisible(false)
-        tableView.reloadData()
+
+        UIView.transition(with: tableView, duration: 0.35, options: .transitionCrossDissolve) { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 
     func didFailToFetchEpisodes(error: APIError) {
         setLoadingViewVisible(false)
-        print(error.name)
+
+        let okAction = AlertAction(title: "Ok", style: .default, action: { _ in })
+
+        let retryAction = AlertAction(title: "Retry", style: .default) { [weak self] _ in
+            self?.viewModel.fetchEpisodes()
+        }
+
+        presentAlert(title: "Error Fetching Episodes", message: error.name, actions: [okAction, retryAction])
     }
 
     private func setLoadingViewVisible(_ visible: Bool) {

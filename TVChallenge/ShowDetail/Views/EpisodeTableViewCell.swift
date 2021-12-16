@@ -22,7 +22,7 @@ final class EpisodeTableViewCell: UITableViewCell {
 
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.3) { [unowned self] in
             self.titleLabel.alpha = self.isHighlighted ? 0.7 : 1
         }
     }

@@ -82,7 +82,7 @@ extension EpisodeDetailViewController: ViewConfigurator {
         seasonLabel.text = "Season \(viewModel.episode.season)"
         seasonLabel.textColor = .tertiaryLabel
 
-        summaryLabel.text = viewModel.episode.summary.removeHTMLTags()
+        summaryLabel.text = viewModel.episode.summary?.removeHTMLTags()
         summaryLabel.numberOfLines = 0
 
         dismissButton.addBlurEffect(style: .systemChromeMaterialDark, cornerRadius: 16)

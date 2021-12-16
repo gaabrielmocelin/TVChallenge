@@ -11,6 +11,6 @@ struct Episode: Decodable {
     let season: Int
     let number: Int
     let name: String
-    let summary: String
+    let summary: String?
     let image: Image?
 }

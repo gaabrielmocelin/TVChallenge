@@ -148,7 +148,7 @@ extension HomeViewController: HomeViewModelDelegate {
             self?.viewModel.fetchShows()
         }
 
-        presentAlert(title: error.name, message: error.message, actions: [okAction, retryAction])
+        presentAlert(title: "Error Fetching Shows", message: error.name, actions: [okAction, retryAction])
     }
 
     func didUpdateState(to state: HomeState) {
