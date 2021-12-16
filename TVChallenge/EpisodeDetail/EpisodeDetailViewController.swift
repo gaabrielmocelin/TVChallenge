@@ -11,9 +11,11 @@ final class EpisodeDetailViewController: UIViewController, SceneViewController {
     let coordinator: Coordinator
     let viewModel: EpisodeDetailViewModel
 
-    private lazy var stack = UIStackView(arrangedSubviews: [episodeImageView])
     private let episodeImageView = UIImageView()
-
+    private lazy var textStack = UIStackView(arrangedSubviews: [titleLabel, seasonLabel, summaryLabel])
+    private let titleLabel = UILabel()
+    private let summaryLabel = UILabel()
+    private let seasonLabel = UILabel()
 
     init(coordinator: Coordinator, viewModel: EpisodeDetailViewModel) {
         self.coordinator = coordinator
@@ -33,27 +35,42 @@ final class EpisodeDetailViewController: UIViewController, SceneViewController {
 
 extension EpisodeDetailViewController: ViewConfigurator {
     func buildViewHierarchy() {
-        view.addSubview(stack)
+        view.addSubview(episodeImageView)
+        view.addSubview(textStack)
     }
 
     func setupConstraints() {
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        stack.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        stack.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        stack.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor).isActive = true
-
+        episodeImageView.translatesAutoresizingMaskIntoConstraints = false
+        episodeImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        episodeImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        episodeImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         episodeImageView.heightAnchor.constraint(equalToConstant: viewModel.episode.image == nil ? 40 : 220).isActive = true
+
+        textStack.translatesAutoresizingMaskIntoConstraints = false
+        textStack.topAnchor.constraint(equalTo: episodeImageView.bottomAnchor, constant: 12).isActive = true
+        textStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        textStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        textStack.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -8).isActive = true
     }
 
     func configureViews() {
         view.backgroundColor = .secondarySystemBackground
 
-        stack.axis = .vertical
-        stack.spacing = 8
-
         if let image = viewModel.episode.image?.original, let url = URL(string: image) {
             episodeImageView.af.setImage(withURL: url, cacheKey: image, imageTransition: .crossDissolve(0.3))
         }
+
+        textStack.axis = .vertical
+        textStack.spacing = 8
+
+        titleLabel.text = "\(viewModel.episode.number). \(viewModel.episode.name)"
+        titleLabel.numberOfLines = 3
+        titleLabel.font = .systemFont(ofSize: 20, weight: .semibold)
+
+        seasonLabel.text = "Season \(viewModel.episode.season)"
+        seasonLabel.textColor = .tertiaryLabel
+
+        summaryLabel.text = viewModel.episode.summary.removeHTMLTags()
+        summaryLabel.numberOfLines = 0
     }
 }
