@@ -8,6 +8,7 @@
 import Foundation
 
 protocol ShowDetailViewModelDelegate: AnyObject {
+    func didStartToFetchEpisodes()
     func didFetchEpisodes()
     func didFailToFetchEpisodes(error: APIError)
 }
@@ -34,7 +35,7 @@ final class ShowDetailViewModel: ViewModel {
     }
 
     // MARK: - Episodes
-    var episodes: [Int: [Episode]] = [:]
+    private(set) var episodes: [Int: [Episode]] = [:]
 
     var seasons: [Int] {
         episodes.keys.map { $0 }.sorted()
@@ -48,6 +49,8 @@ final class ShowDetailViewModel: ViewModel {
 
     // MARK: - Episode functionss
     func fetchEpisodes() {
+        delegate?.didStartToFetchEpisodes()
+
         showService.fetchEpisodes(of: show) { [weak self] result in
             switch result {
             case .success(let episodes):

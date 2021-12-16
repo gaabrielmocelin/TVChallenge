@@ -14,6 +14,7 @@ final class ShowDetailViewController: UIViewController, SceneViewController {
 
     // MARK: - Views
     private let tableView = UITableView()
+    private let loadingView = LoadingView()
 
     // MARK: - Life Cycle
     init(coordinator: Coordinator, viewModel: ShowDetailViewModel) {
@@ -51,6 +52,7 @@ extension ShowDetailViewController: ViewConfigurator {
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
+        tableView.tableFooterView = loadingView
 
         tableView.register(type: ShowImageTableView.self)
         tableView.register(type: ShowInfoTableViewCell.self)
@@ -127,11 +129,22 @@ extension ShowDetailViewController: UITableViewDelegate {
 
 // MARK: - View Model Delegate
 extension ShowDetailViewController: ShowDetailViewModelDelegate {
+    func didStartToFetchEpisodes() {
+        setLoadingViewVisible(true)
+    }
+
     func didFetchEpisodes() {
+        setLoadingViewVisible(false)
         tableView.reloadData()
     }
 
     func didFailToFetchEpisodes(error: APIError) {
+        setLoadingViewVisible(false)
         print(error.name)
+    }
+
+    private func setLoadingViewVisible(_ visible: Bool) {
+        loadingView.isHidden = !visible
+        visible ? loadingView.startAnimation() : loadingView.stopAnimation()
     }
 }
