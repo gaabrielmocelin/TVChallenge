@@ -8,11 +8,14 @@
 import UIKit
 
 final class ShowDetailViewController: UIViewController, SceneViewController {
+    // MARK: - Properties
     let coordinator: Coordinator
     let viewModel: ShowDetailViewModel
 
+    // MARK: - Views
     private let tableView = UITableView()
 
+    // MARK: - Life Cycle
     init(coordinator: Coordinator, viewModel: ShowDetailViewModel) {
         self.coordinator = coordinator
         self.viewModel = viewModel
@@ -31,6 +34,7 @@ final class ShowDetailViewController: UIViewController, SceneViewController {
     }
 }
 
+// MARK: - View Code configuration
 extension ShowDetailViewController: ViewConfigurator {
     func buildViewHierarchy() {
         view.addSubview(tableView)
@@ -56,6 +60,7 @@ extension ShowDetailViewController: ViewConfigurator {
     }
 }
 
+// MARK: - UITableView Delegate & Data Source
 extension ShowDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         2 + viewModel.seasons.count
@@ -64,11 +69,11 @@ extension ShowDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return viewModel.show.image == nil ? 0 : 1 // image section
+            return viewModel.show.image == nil ? 0 : 1 // Image section
         case 1:
             return 1 // Show info section
         default:
-            return viewModel.episodes[section - 1]?.count ?? 0
+            return viewModel.episodes[section - 1]?.count ?? 0 // Each season has it's own section
         }
     }
 
@@ -120,6 +125,7 @@ extension ShowDetailViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - View Model Delegate
 extension ShowDetailViewController: ShowDetailViewModelDelegate {
     func didFetchEpisodes() {
         tableView.reloadData()

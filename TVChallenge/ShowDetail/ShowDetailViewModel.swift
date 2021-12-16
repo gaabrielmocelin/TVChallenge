@@ -13,11 +13,14 @@ protocol ShowDetailViewModelDelegate: AnyObject {
 }
 
 final class ShowDetailViewModel: ViewModel {
+    // MARK: - Services + Dependency Injection
     let showService: ShowServiceProtocol
     let show: Show
 
+    // MARK: - View Delegate
     weak var delegate: ShowDetailViewModelDelegate?
 
+    // MARK: - Show Info formatted
     var summary: String {
         show.summary.removeHTMLTags()
     }
@@ -30,17 +33,20 @@ final class ShowDetailViewModel: ViewModel {
         "Schedule: \(show.schedule.time) - \(show.schedule.days.joined(separator: ", "))"
     }
 
+    // MARK: - Episodes
     var episodes: [Int: [Episode]] = [:]
 
     var seasons: [Int] {
         episodes.keys.map { $0 }.sorted()
     }
 
+    // MARK: - Init
     init(showService: ShowServiceProtocol, show: Show) {
         self.showService = showService
         self.show = show
     }
 
+    // MARK: - Episode functionss
     func fetchEpisodes() {
         showService.fetchEpisodes(of: show) { [weak self] result in
             switch result {
