@@ -33,7 +33,7 @@ extension ShowImageTableView: ViewConfigurator {
 
     func setupConstraints() {
         showImageView.translatesAutoresizingMaskIntoConstraints = false
-        showImageView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        showImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
         showImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         showImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         showImageView.heightAnchor.constraint(equalToConstant: 300).isActive = true

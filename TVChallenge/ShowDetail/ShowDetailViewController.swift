@@ -46,13 +46,13 @@ extension ShowDetailViewController: ViewConfigurator {
 
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.contentInset = UIEdgeInsets (top: 20, left: 0, bottom: 20, right: 0)
-        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
 
         tableView.register(type: ShowImageTableView.self)
         tableView.register(type: ShowInfoTableViewCell.self)
         tableView.register(type: EpisodeTableViewCell.self)
         tableView.dataSource = self
+        tableView.delegate = self
     }
 }
 
@@ -90,13 +90,23 @@ extension ShowDetailViewController: UITableViewDataSource {
             return cell
         }
     }
+}
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+extension ShowDetailViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard section > 1 else {
             return nil
         }
 
-        return "Season \(viewModel.seasons[section - 2])"
+        return SeasonHeaderView(title: "Season \(viewModel.seasons[section - 2])")
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard section > 1 else {
+            return 0
+        }
+
+        return 70
     }
 }
 
