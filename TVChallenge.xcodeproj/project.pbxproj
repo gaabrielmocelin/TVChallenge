@@ -34,7 +34,7 @@
 		E1DD8FE62769676400C78841 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DD8FE52769676400C78841 /* SceneDelegate.swift */; };
 		E1DD8FED2769676500C78841 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1DD8FEC2769676500C78841 /* Assets.xcassets */; };
 		E1DD8FF02769676500C78841 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1DD8FEE2769676500C78841 /* LaunchScreen.storyboard */; };
-		E1DD8FFB2769676500C78841 /* TVChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DD8FFA2769676500C78841 /* TVChallengeTests.swift */; };
+		E1DD8FFB2769676500C78841 /* ShowDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DD8FFA2769676500C78841 /* ShowDetailViewModelTests.swift */; };
 		E1DD90062769676500C78841 /* TVChallengeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DD90052769676500C78841 /* TVChallengeUITests.swift */; };
 		E1DD903927696B3D00C78841 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DD903527696B3D00C78841 /* Scene.swift */; };
 		E1DD903B27696B3D00C78841 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DD903727696B3D00C78841 /* SceneViewController.swift */; };
@@ -100,7 +100,7 @@
 		E1DD8FEF2769676500C78841 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E1DD8FF12769676500C78841 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1DD8FF62769676500C78841 /* TVChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TVChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E1DD8FFA2769676500C78841 /* TVChallengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVChallengeTests.swift; sourceTree = "<group>"; };
+		E1DD8FFA2769676500C78841 /* ShowDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailViewModelTests.swift; sourceTree = "<group>"; };
 		E1DD8FFC2769676500C78841 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1DD90012769676500C78841 /* TVChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TVChallengeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1DD90052769676500C78841 /* TVChallengeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVChallengeUITests.swift; sourceTree = "<group>"; };
@@ -266,7 +266,7 @@
 		E1DD8FF92769676500C78841 /* TVChallengeTests */ = {
 			isa = PBXGroup;
 			children = (
-				E1DD8FFA2769676500C78841 /* TVChallengeTests.swift */,
+				E1DD8FFA2769676500C78841 /* ShowDetailViewModelTests.swift */,
 				E1DD8FFC2769676500C78841 /* Info.plist */,
 			);
 			path = TVChallengeTests;
@@ -600,7 +600,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1DD8FFB2769676500C78841 /* TVChallengeTests.swift in Sources */,
+				E1DD8FFB2769676500C78841 /* ShowDetailViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
