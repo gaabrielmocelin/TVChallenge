@@ -1,24 +1,28 @@
 # TVChallenge
 
-## Setup
+### Setup
 #### Clone the project
-`$ git clone https://github.com/BrunoScheltzke/MarvelHeroes.git`
+`$ git clone https://github.com/gaabrielmocelin/TVChallenge.git`
 
 #### Install dependencies
 `$ pod install`
 
 # Features 👨‍💻
 ### Infinite Scrolling
-The app includes infinte scrolling to fetch a list of TV Shows as requested by the user (by scrolling down).
+The app includes infinite scrolling to fetch a list of TV Shows as requested by the user (by scrolling down).
 
 ### Search
-With the search the user is able to find quickly the TV Show he is interested in.
+With the search the user is able to quickly find the TV Show he is interested in.
 
 ### Show Detail
-Tap into any TV Show to see more about it, including the seasons and episodes. 
+Tap into any TV Show to see more about it, including the seasons and episodes.
 
 ### More
-The app is totally compatible with iPad and iPhone Landscape mode, go ahead and give it a try!
+The app is totally compatible with iPad, Dark Mode and iPhone on Landscape, go ahead and give it a try!
+
+<img src="https://github.com/gaabrielmocelin/TVChallenge/blob/main/features.gif" width="250">
+<img src="https://github.com/gaabrielmocelin/TVChallenge/blob/main/iPad.png" width="600">
+<img src="https://github.com/gaabrielmocelin/TVChallenge/blob/main/landscape.png" width="500">
 
 ## Possible Next Steps
 
