@@ -11,6 +11,7 @@ protocol HomeViewModelDelegate: AnyObject {
     func didFetchNewShows(indexes: [IndexPath])
     func didFailToFetchShows(error: APIError)
     func didUpdateState(to state: HomeState)
+    func reloadCollection()
 }
 
 enum HomeState {
@@ -88,6 +89,7 @@ final class HomeViewModel: ViewModel {
     func search(for query: String) {
         guard !query.isEmpty else {
             state = .default
+            delegate?.reloadCollection()
             return
         }
 
@@ -98,6 +100,7 @@ final class HomeViewModel: ViewModel {
             case .success(let shows):
                 self?.searchedShows = shows
                 self?.state = .searched
+                self?.delegate?.reloadCollection()
 
             case .failure(let error):
                 self?.delegate?.didFailToFetchShows(error: error)

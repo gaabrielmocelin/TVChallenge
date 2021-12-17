@@ -156,8 +156,11 @@ extension HomeViewController: HomeViewModelDelegate {
             self?.activityIndicator.isHidden = state != .loading
             state == .loading ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
             self?.collectionView.isHidden = state == .loading
-            self?.collectionView.reloadData()
         }
+    }
+
+    func reloadCollection() {
+        collectionView.reloadData()
     }
 }
 
