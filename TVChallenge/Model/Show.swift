@@ -12,7 +12,7 @@ struct Show: Decodable {
     let name: String
     let image: Image?
     let genres: [String]
-    let summary: String
+    let summary: String?
     let schedule: Schedule
 
     struct Schedule: Decodable {

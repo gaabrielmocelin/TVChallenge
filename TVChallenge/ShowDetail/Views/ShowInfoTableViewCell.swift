@@ -22,7 +22,7 @@ final class ShowInfoTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(summary: String, genres: String, schedule: String) {
+    func set(summary: String?, genres: String, schedule: String) {
         summaryLabel.text = summary
         genresLabel.text = genres
         scheduleLabel.text = schedule

@@ -22,8 +22,8 @@ final class ShowDetailViewModel: ViewModel {
     weak var delegate: ShowDetailViewModelDelegate?
 
     // MARK: - Show Info formatted
-    var summary: String {
-        show.summary.removeHTMLTags()
+    var summary: String? {
+        show.summary?.removeHTMLTags()
     }
 
     var genres: String {
