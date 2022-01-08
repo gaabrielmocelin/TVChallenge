@@ -25,6 +25,7 @@ final class ShowCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         showImageView.image = nil
+        showImageView.af.cancelImageRequest()
     }
 
     func set(show: Show) {

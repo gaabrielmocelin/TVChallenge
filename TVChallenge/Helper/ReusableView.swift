@@ -8,7 +8,7 @@
 import UIKit
 
 //Protocol to avoid dealing with literal strings for reuse identifiers
-protocol ReusableView: class {
+protocol ReusableView: AnyObject {
     static var reuseIdentifier: String {get}
 }
 
